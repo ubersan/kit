@@ -32,6 +32,7 @@ export interface AdapterUtils {
 
 export interface Adapter {
 	name: string;
+	serverEntryPoint?: string;
 	adapt(context: { utils: AdapterUtils; config: ValidatedConfig }): Promise<void>;
 }
 
@@ -82,6 +83,7 @@ export interface Config {
 			onError?: PrerenderOnErrorValue;
 		};
 		router?: boolean;
+		serverEntryPoint?: string;
 		serviceWorker?: {
 			files?(filepath: string): boolean;
 		};

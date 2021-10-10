@@ -161,6 +161,8 @@ const options = object(
 
 			router: boolean(true),
 
+			serverEntryPoint: string(null),
+
 			serviceWorker: object({
 				files: fun((filename) => !/\.DS_STORE/.test(filename))
 			}),

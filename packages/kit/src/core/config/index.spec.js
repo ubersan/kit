@@ -50,6 +50,7 @@ test('fills in defaults', () => {
 				pages: undefined
 			},
 			router: true,
+			serverEntryPoint: null,
 			ssr: true,
 			target: null,
 			trailingSlash: 'never'
@@ -150,6 +151,7 @@ test('fills in partial blanks', () => {
 				pages: undefined
 			},
 			router: true,
+			serverEntryPoint: null,
 			ssr: true,
 			target: null,
 			trailingSlash: 'never'

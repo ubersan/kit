@@ -1,15 +1,10 @@
 import fs from 'fs';
 import { execSync } from 'child_process';
-import esbuild from 'esbuild';
 import toml from '@iarna/toml';
 import { fileURLToPath } from 'url';
 
-/**
- * @typedef {import('esbuild').BuildOptions} BuildOptions
- */
-
 /** @type {import('.')} */
-export default function (options) {
+export default function () {
 	return {
 		name: '@sveltejs/adapter-cloudflare-workers',
 
@@ -33,20 +28,6 @@ export default function (options) {
 
 			utils.log.minor('Generating worker...');
 			utils.copy(`${files}/entry.js`, '.svelte-kit/cloudflare-workers/entry.js');
-
-			/** @type {BuildOptions} */
-			const default_options = {
-				entryPoints: ['.svelte-kit/cloudflare-workers/entry.js'],
-				outfile: `${entrypoint}/index.js`,
-				bundle: true,
-				target: 'es2020',
-				platform: 'browser'
-			};
-
-			const build_options =
-				options && options.esbuild ? await options.esbuild(default_options) : default_options;
-
-			await esbuild.build(build_options);
 
 			fs.writeFileSync(`${entrypoint}/package.json`, JSON.stringify({ main: 'index.js' }));
 

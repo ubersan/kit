@@ -52,6 +52,7 @@ async function testLoadDefaultConfig(path) {
 				pages: undefined
 			},
 			router: true,
+			serverEntryPoint: null,
 			ssr: true,
 			target: null,
 			trailingSlash: 'never'

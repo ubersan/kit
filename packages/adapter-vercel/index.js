@@ -1,14 +1,9 @@
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
-import esbuild from 'esbuild';
-
-/**
- * @typedef {import('esbuild').BuildOptions} BuildOptions
- */
 
 /** @type {import('.')} **/
-export default function (options) {
+export default function () {
 	return {
 		name: '@sveltejs/adapter-vercel',
 
@@ -23,27 +18,11 @@ export default function (options) {
 				lambda: join(dir, 'functions/node/render')
 			};
 
-			// TODO ideally we'd have something like utils.tmpdir('vercel')
-			// rather than hardcoding '.svelte-kit/vercel/entry.js', and the
-			// relative import from that file to output/server/app.js
-			// would be controlled. at the moment we're exposing
-			// implementation details that could change
+			// TODO ideally we'd have something like utils.tmpdir('vercel') rather
+			// than hardcoding '.svelte-kit/vercel/entry.js'. At the moment we're
+			// exposing implementation details that could change
 			utils.log.minor('Generating serverless function...');
 			utils.copy(join(files, 'entry.js'), '.svelte-kit/vercel/entry.js');
-
-			/** @type {BuildOptions} */
-			const default_options = {
-				entryPoints: ['.svelte-kit/vercel/entry.js'],
-				outfile: join(dirs.lambda, 'index.js'),
-				bundle: true,
-				inject: [join(files, 'shims.js')],
-				platform: 'node'
-			};
-
-			const build_options =
-				options && options.esbuild ? await options.esbuild(default_options) : default_options;
-
-			await esbuild.build(build_options);
 
 			writeFileSync(join(dirs.lambda, 'package.json'), JSON.stringify({ type: 'commonjs' }));
 

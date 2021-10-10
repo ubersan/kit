@@ -1,7 +1,8 @@
+import '@sveltejs/kit/install-fetch';
+// $server-build doesn't exist until the app is built
+// @ts-expect-error
+import { init, render } from '$server-build';
 import { getRawBody } from '@sveltejs/kit/node';
-
-// TODO hardcoding the relative location makes this brittle
-import { init, render } from '../output/server/app.js';
 
 init();
 
